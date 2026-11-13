@@ -30,6 +30,44 @@ public class ProductService {
     }
 
 
-    
-    ///#endregion
-}
+    public Product guardar(Product product) {
+        // Validar que el producto no sea nulo y que tenga un nombre válido
+        if( product== null)
+            throw new IllegalArgumentException("Producto no puede ser nulo");
+        // Validar que el nombre del producto no sea nulo o vacío
+        if(product.getName() == null || product.getName().isEmpty())
+            throw new IllegalArgumentException("Nombre del producto no puede ser nulo o vacío");
+
+        // Validar que el precio del productos sea mayor que cero
+        if (product.getPrice() <= 0)
+            throw new IllegalArgumentException("El precio del producto no puede ser negativo, ni cero");
+
+        return productRepository.save(product);
+    }
+
+    //actualizar producto
+    public Product actualizar(long id, Product productDetails) {
+        Product product = ObtenerPorId(id);
+
+        if (productDetails.getName() != null && !productDetails.getName().isEmpty()==false) {
+            product.setName(productDetails.getName());
+        }
+        if (productDetails.getPrice() > 0) {
+            product.setPrice(productDetails.getPrice());
+        }
+
+        return productRepository.save(product);
+    }
+
+
+    //eliminar producto
+    public void eliminar(long id) {
+        if(productRepository.existsById(id) == false)
+            throw new RuntimeException("Producto no encontrado para eliminar");
+        //Si lo encuentra, lo elimina
+        productRepository.deleteById(id);
+    }
+ ///#endregion
+    }
+
+
