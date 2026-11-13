@@ -51,6 +51,7 @@ public class ProductController {
         return productService.actualizar(id, productDetails);
     }
 
+    //Eliminar producto
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Long id) {
         productService.eliminar(id);
